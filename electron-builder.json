@@ -6,8 +6,8 @@
     "publish": [
         {
             "provider": "github",
-            "owner": "cybitsblockchain",
-            "repo": "-wallet"
+            "owner": "CybitsBlockchain",
+            "repo": "cybits-wallet"
         }
     ],
     "releaseInfo": {
@@ -62,7 +62,7 @@
         "perMachine": true,
         "allowToChangeInstallationDirectory": true,
         "deleteAppDataOnUninstall": true,
-        "guid": "b02c24b0-e9e9-40eb-8dbe-d24987328d41",
+        "guid": "b02c24b0-e9e9-40eb-8dbe-d24987342d41",
         "createDesktopShortcut": true,
         "createStartMenuShortcut": true,
         "license": "dist/assets/license.txt"
