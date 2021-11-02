@@ -1,0 +1,70 @@
+<div class="content details-content content-big-margin">
+
+    <div class="details-row">
+        <div class="details-row-title">Type</div>
+        <div class="details-row-value">{{ transaction.transactionType }}</div>
+    </div>
+
+    <div class="details-row" *ngIf="transaction.transactionType == 'received'">
+        <div class="details-row-title">Total Amount</div>
+        <div class="details-row-value">{{ transaction.transactionAmount | coinNotation }}
+            <small>{{ coinUnit }}</small>
+        </div>
+    </div>
+
+    <div class="details-row" *ngIf="transaction.transactionType == 'sent'">
+        <div class="details-row-title">Total Amount</div>
+        <div class="details-row-value">{{ transaction.transactionAmount + transaction.transactionFee | coinNotation }}
+            <small>{{ coinUnit }}</small>
+        </div>
+    </div>
+
+    <div class="details-row" *ngIf="transaction.transactionType == 'sent'">
+        <div class="details-row-title">Amount Sent</div>
+        <div class="details-row-value">{{ transaction.transactionAmount | coinNotation }}
+            <small>{{ coinUnit }}</small>
+        </div>
+    </div>
+
+    <div class="details-row" *ngIf="transaction.transactionType == 'sent'">
+        <div class="details-row-title">Fee</div>
+        <div class="details-row-value">{{ transaction.transactionFee | coinNotation }}
+            <small>{{ coinUnit }}</small>
+        </div>
+    </div>
+
+    <div class="details-row">
+        <div class="details-row-title">Date</div>
+        <div class="details-row-value">{{ transaction.transactionTimestamp * 1000 | date:'medium' }}</div>
+    </div>
+
+    <div class="details-row">
+        <div class="details-row-title">Block</div>
+        <div class="details-row-value">#{{ transaction.transactionConfirmedInBlock }}</div>
+    </div>
+
+    <div class="details-row">
+        <div class="details-row-title">Confirmations</div>
+        <div class="details-row-value">
+            <span *ngIf="confirmations < 1" class="badge badge-warning">Unconfirmed</span>
+            <span *ngIf="confirmations >= 1" class="badge badge-success">{{ confirmations }}</span>
+        </div>
+    </div>
+
+    <div class="details-row">
+        <div class="details-row-title">Transaction ID</div>
+        <div class="details-row-value">
+            <code [title]="transaction.transactionId">{{ transaction.transactionId.substring(0, 12) }}...</code>
+            <button mat-icon-button ngbTooltip="Copy to clipboard" [cdkCopyToClipboard]="transaction.transactionId" (click)="onCopiedClick()">
+                <mat-icon>content_copy</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <!-- <div class="details-row" *ngIf="transaction.transactionType == 'sent'">
+        <div class="details-row-title">Actions</div>
+        <div class="details-row-value">
+            <button mat-flat-button (click)="retry(transaction)">Broadcast (retry)</button>
+        </div>
+    </div> -->
+</div>

@@ -1,0 +1,54 @@
+<div class="splash-container not-selectable">
+
+    <app-logo></app-logo>
+
+    <ng-template [ngIf]="!loading" [ngIfElse]="spinner">
+
+        <mat-form-field>
+            <mat-select placeholder="Select network" [(ngModel)]="appState.activeChain">
+                <mat-option *ngFor="let network of filteredAvailableChains" [value]="network">
+                    {{network.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button class="start-button" (click)="launch()" [disabled]="selectedMode == null || appState.activeChain == null" mat-raised-button color="primary">Start</button>
+
+
+
+
+        <mat-accordion class="setup-headers-align" multi>
+
+        </mat-accordion>
+
+        <!-- <p class="mat-caption">
+            During PREVIEW RELEASE testing, <br>these options are set by default.
+        </p> -->
+
+    </ng-template>
+
+    <!-- <button (click)="simpleWalletConnect()" mat-raised-button>Simple Wallet (Connect)</button>
+    <button (click)="simpleWalletWatch()" mat-raised-button>Simple Wallet (Watch)</button>
+    <button (click)="simpleWalletBalance()" mat-raised-button>Simple Wallet (Balance)</button> -->
+
+    <ng-template #spinner>
+        <mat-spinner></mat-spinner>
+        <span class="load-text">Loading <strong>{{appState.activeChain.name}}</strong>... please wait.<br><br>
+
+            <div class="load-feature-status" *ngFor="let feature of featureStatus">
+                <div class="name">{{feature.name}}</div>
+                <div class="status">
+                    <mat-icon *ngIf="feature.initialized">task_alt</mat-icon>
+                </div>
+            </div>
+
+            <br>Release {{appState.release}}
+        </span>
+        <span *ngIf="delayed">
+            <br>
+            <button routerLink="/advanced" mat-raised-button>Advanced</button>&nbsp;
+            <button (click)="cancel()" mat-raised-button color="primary">Cancel</button>
+        </span>
+    </ng-template>
+
+</div>

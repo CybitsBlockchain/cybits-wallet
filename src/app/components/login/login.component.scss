@@ -1,0 +1,185 @@
+.login
+{
+    height: 100%;
+    width: 100%;
+
+    .login-container
+    {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .login-content
+    {
+        width: 44%;
+        min-width: 240px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        min-height: 260px;
+        margin-top: 10%;
+    }
+
+    .login-unlock-button {
+        margin-bottom: 20px;
+    }
+
+    .login-cancel-button {
+        margin-right: 10px;
+    }
+
+    .login-logo
+    {
+        margin-top: 4em;
+        max-height: 100px;
+    }
+
+    .login-header{
+        flex-grow: 1;
+    }
+
+    .login-accounts {
+        flex-grow: 0;
+    }
+
+    .login-actions
+    {
+        flex-grow: 0;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        margin-top: 20px;
+    }
+    
+    .login-mode
+    {
+        flex-grow: 2;
+        align-items: flex-end;
+        justify-content: center;
+        display: flex;
+        margin-bottom: 20px;
+    }
+
+    .login-banner
+    {
+        background-color: #dfab3c;
+        width: 56%;
+        // background-image: url('../../../assets/city/splash-image.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        text-align: center;
+    }
+
+    .login-banner-city
+    {
+        background-image: url('/assets/city/splash-image.jpg');
+    }
+
+    .login-banner-btc
+    {
+        background-image: url('/assets/btc/splash-image.jpg');
+    }
+
+    .login-banner-x42
+    {
+        background-image: url('/assets/splash-image.jpg');
+    }
+
+    .login-banner-ruta
+    {
+        background-image: url('/assets/splash-image.jpg');
+    }
+
+    .login-banner-exos
+    {
+        background-image: url('/assets/splash-image.jpg');
+    }
+
+    .login-banner-implx
+    {
+        background-image: url('/assets/splash-image.jpg');
+    }
+
+    .login-banner-xrc
+    {
+        background-image: url('/assets/xrc/splash-image.jpg');
+    }
+
+    .login-banner-x1
+    {
+        background-image: url('/assets/x1/splash-image.jpg');
+    }
+
+    .login-banner-home
+    {
+        background-image: url('/assets/home/splash-image.jpg');
+    }
+
+    .login-banner-content
+    {
+        height: 100%;
+    }
+
+    .login-banner-text
+    {
+        text-align: right;
+        bottom: 1em;
+        right: 1em;
+        position: absolute;
+    }
+
+    .login-mode-mobile {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .login
+    {
+        .login-banner-text
+        {
+            bottom: 8em;
+        }
+
+        .login-container {
+            flex-direction: column;
+        }
+
+        .login-content{
+            width: 100%;
+        }
+
+        .login-banner {
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .login-mode-mobile {
+            display: block;
+            bottom: 10px;
+            position: absolute;
+            min-width: 200px;
+            margin-left: 25%;
+            margin-right: 25%;
+            //display: flex;
+            //justify-content: center;
+            //padding-top: 40px;
+        }
+
+        .login-mode {
+            display: none;
+            // flex-grow: 2;
+            // align-items: flex-end;
+            // justify-content: center;
+            // display: flex;
+            // margin-bottom: 20px;
+            // position: absolute;
+            // display: inline-block;
+            // bottom: 20px;
+            // text-align: center;
+        }
+    }
+}

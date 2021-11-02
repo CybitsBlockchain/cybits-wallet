@@ -1,0 +1,78 @@
+{
+    "appId": "org.cybits.wallet",
+    "artifactName": "Cybits-${version}-${os}-${arch}.${ext}",
+    "productName": "Cybits Community Cryptocurrency",
+    "asar": true,
+    "publish": [
+        {
+            "provider": "github",
+            "owner": "cybitsblockchain",
+            "repo": "-wallet"
+        }
+    ],
+    "releaseInfo": {
+        "releaseName": "Cybits Community Cryptocurrency"
+    },
+    "files": [
+        "dist/**",
+        "main.js"
+    ],
+    "directories": {
+        "output": "build"
+    },
+    "win": {
+        "icon": "dist/assets/icon.ico",
+        "target": [
+            "nsis"
+        ],
+        "artifactName": "Cybits-${version}-${os}-${env.arch}.${ext}"
+    },
+    "linux": {
+        "icon": "dist/assets/images/",
+        "target": [
+            "AppImage:x64"
+        ],
+        "synopsis": "Cybits Community Cryptocurrency.",
+        "category": "Utility"
+    },
+    "mac": {
+        "icon": "dist/assets/icon.icns",
+        "target": [
+            "dmg",
+            "zip"
+        ],
+        "category": "public.app-category.productivity"
+    },
+    "dmg": {
+        "contents": [
+            {
+                "x": 110,
+                "y": 150
+            },
+            {
+                "x": 240,
+                "y": 150,
+                "type": "link",
+                "path": "/Applications"
+            }
+        ]
+    },
+    "nsis": {
+        "oneClick": false,
+        "perMachine": true,
+        "allowToChangeInstallationDirectory": true,
+        "deleteAppDataOnUninstall": true,
+        "guid": "b02c24b0-e9e9-40eb-8dbe-d24987328d41",
+        "createDesktopShortcut": true,
+        "createStartMenuShortcut": true,
+        "license": "dist/assets/license.txt"
+    },
+    "msi": {
+        "warningsAsErrors": false
+    },
+    "extraResources": [
+        "daemon/**/*",
+        "favicon.ico",
+        "dist/assets/license.txt"
+    ]
+}

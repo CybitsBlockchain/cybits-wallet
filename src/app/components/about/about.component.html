@@ -1,0 +1,67 @@
+<div class="content not-selectable centered" *ngIf="nodeStatusSubscription$ | async as node">
+    <mat-card class="about-card">
+        <img src="assets/cybits/logo.png" style="height:120px;" alt="Cybits Community Cryptopcurrency">
+        <mat-card-header>
+            <mat-card-title>Release {{appState.release}}</mat-card-title>
+            <mat-card-subtitle>Cybits Community Cryptocurrency
+                <br><br>Network: {{appState.daemon.network}}<br>
+                Mode: {{appState.daemon.mode}}<br>
+                Version: {{node.version}}<br>
+                Protocol: {{node.protocolVersion}}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-nav-list>
+                <mat-list>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item routerLink="./changes">
+                        <span class="about-nav-title">What's new</span>
+                        <mat-icon class="about-nav-caret" color="primary">
+                            <svg>
+                                <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                            </svg>
+                        </mat-icon>
+                    </a>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item routerLink="./licenses">
+                        <span class="about-nav-title">Third party licenses</span>
+                        <mat-icon class="about-nav-caret" color="primary">
+                            <svg>
+                                <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                            </svg>
+                        </mat-icon>
+                    </a>
+                    <mat-divider></mat-divider>
+                    <a mat-list-item routerLink="./privacy">
+                        <span class="about-nav-title">Privacy Policy</span>
+                        <mat-icon class="about-nav-caret" color="primary">
+                            <svg>
+                                <path fill="currentColor" d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                            </svg>
+                        </mat-icon>
+                    </a>
+                    <mat-divider></mat-divider>
+                </mat-list>
+            </mat-nav-list>
+
+            <p><br>
+                Wallet directory:
+                <span *ngIf="!appState.isElectron; else directoryLink">
+                    <em>{{ node.dataDirectoryPath }}</em>
+                </span>
+                <ng-template #directoryLink>
+                    <a (click)="openFolder(node.dataDirectoryPath)" href="javascript:void(0)">
+                        <em>{{ node.dataDirectoryPath }}</em>
+                    </a>
+                </ng-template>
+                <br>
+            </p>
+
+            <a mat-stroked-button href="https://www.blockcore.net" target="_blank">Blockcore Website</a>
+            <a mat-stroked-button href="https://github.com/block-core/blockcore-hub" target="_blank">Source Code</a>
+
+        </mat-card-content>
+
+    </mat-card>
+
+</div>

@@ -1,0 +1,178 @@
+<div class="content">
+
+    <div fxLayout="row" fxLayout.xs="column" fxLayout.sm="column" fxFlex fxLayoutGap="20px grid" fxLayoutGap.xs="0px grid" fxLayoutGap.sm="0px grid">
+        <div fxFlex>
+            <mat-card class="dashboard-card">
+                <mat-icon class="dashboard-info-icon" [matTooltip]="walletInfo">info</mat-icon>
+                <mat-card-title>Balance</mat-card-title>
+                <mat-card-subtitle>The balance of: {{wallet.walletName}}</mat-card-subtitle>
+                <mat-card-content>
+                    <p>
+                        <strong>{{ (wallet.confirmedBalance | coinNotation) || (0 | coinNotation) }}</strong>
+                        <small class="text-uppercase"> {{ wallet.coinUnit }}</small>
+                    </p>
+                    <ul *ngIf="wallet.unconfirmedBalance">
+                        <li>
+                            <strong>{{ (wallet.unconfirmedBalance | coinNotation) || (0 | coinNotation) }}</strong>
+                            <em> (unconfirmed)</em>
+                        </li>
+                    </ul>
+
+                    <p>
+                        <button mat-stroked-button color="primary" routerLink="/wallet/send">Send</button>&nbsp;
+                        <button mat-stroked-button color="primary" routerLink="/wallet/receive">Receive</button>&nbsp;
+                    </p>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="dashboard-card">
+                <mat-card-title>Get coins</mat-card-title>
+                <mat-card-subtitle>
+                    Sign up at <a href="https://launchpad.cybits.org">https://launchpad.cybits.org</a>
+                </mat-card-subtitle>
+
+                <mat-card-content>
+
+                    <div *ngIf="appState.chain === 'city'">
+                        <p>
+                            Soon you will be able to buy coins directly in Blockcore Hub. Until then, please visit our website for a list of partners
+                            and exchanges.
+                        </p>
+
+                        <a href="https://www.city-chain.org/#coins" target="_blank" mat-stroked-button>Buy Coins</a>
+                    </div>
+
+                    <div *ngIf="appState.chain === 'stratis'">
+                        <p>
+                            To fund your wallet, you need to purchase some STRAT.
+                        </p>
+
+                        <a href="https://www.binance.com/?ref=12007023" target="_blank" mat-stroked-button>Buy STRAT at Binance</a>
+                    </div>
+                </mat-card-content>
+
+            </mat-card>
+
+            <!-- <mat-card class="dashboard-card">
+                <mat-card-title>Make a paper wallet</mat-card-title>
+                <mat-card-content>
+                    <p>
+                        If you need to store coins safely for an extended time, or if you want to give away coins as a gift, you can do so with a paperwallet.
+                    </p>
+
+                    <button mat-stroked-button routerLink="/paperwallet">Create Paper Wallet</button>
+                </mat-card-content>
+            </mat-card> -->
+        </div>
+        <div fxFlex>
+
+            <!-- <mat-card class="dashboard-card" *ngIf="selectedCoinTicker">
+                <mat-icon class="dashboard-info-icon clickable" (click)="changeTicker(1)" [matTooltip]="tickerInfo">chevron_right</mat-icon>
+                <mat-icon class="dashboard-info-icon clickable" (click)="changeTicker(-1)" [matTooltip]="tickerInfo">chevron_left</mat-icon>
+                <mat-card-title>{{selectedCoinTicker.name}} ({{selectedCoinTicker.symbol}})</mat-card-title>
+                <mat-card-subtitle>Tickers will auto-update and show recent prices and volume.</mat-card-subtitle>
+                <mat-card-content>
+                    <span class="marketprice-larger">
+                        {{selectedCoinTicker.price}} {{selectedCoinTicker.pair}} (<span class="marketprice" [ngClass]="{'marketprice-negative': selectedCoinTicker.changePercent24Hr < 0}">{{selectedCoinTicker.changePercent24Hr | priceUnit}}%</span>)<br>
+                    </span>
+                    <table class="marketprice-table">
+                        <tr>
+                            <td>Volume: {{selectedCoinTicker.volume24Hr | priceUnit}} {{selectedCoinTicker.volumepair}}</td>
+                        </tr>
+                    </table>
+                </mat-card-content>
+            </mat-card>
+
+            <mat-card class="dashboard-card" *ngIf="!selectedCoinTicker">
+                <mat-card-title>Loading...</mat-card-title>
+                <mat-card-content>
+                    <p>
+                        Please wait...
+                    </p>
+                </mat-card-content>
+            </mat-card> -->
+
+            <!-- <mat-card class="dashboard-card">
+                <mat-card-title>Notifications ({{notifications.count}})</mat-card-title>
+                <mat-card-subtitle>Summary from your Notification Center</mat-card-subtitle>
+
+                <mat-card-content>
+
+                    <p *ngFor="let tile of notifications.notifications.slice().reverse()">
+                        - {{tile.title}}
+                    </p>
+
+                    <button mat-stroked-button routerLink="/notifications">Open Notification Center</button>
+                </mat-card-content>
+
+            </mat-card> -->
+
+            <app-identity-lookup-widget *ngIf="appModes.enabled('hubs')"></app-identity-lookup-widget>
+
+            <!-- <mat-card>
+                <mat-card-title>Sweep paper wallet</mat-card-title>
+                <mat-card-subtitle>Supported formats: WIF, BIP38, Mini private key.</mat-card-subtitle>
+
+                <mat-card-content>
+                    <p>
+                        You can add more coins to your wallet by sweeping paper wallets. When you sweep a paper wallet, all the coins are moved from
+                        the original address and into your current wallet.
+                    </p>
+
+                    <p>
+                        After the transfer is complete, you should avoid reusing the paper wallet for security reasons.
+                    </p>
+
+                    <button mat-stroked-button disabled>Sweep Wallet</button> (Coming soon)
+                </mat-card-content>
+
+            </mat-card> -->
+        </div>
+    </div>
+
+    <!-- <mat-grid-list class="network-grid" gutterSize="10" [cols]="columns" #grid>
+        <mat-grid-tile>
+            <mat-card class="dashboard-card">
+                <mat-icon class="dashboard-info-icon" [matTooltip]="walletInfo">info</mat-icon>
+
+                <h2>Balance</h2>
+
+            </mat-card>
+        </mat-grid-tile>
+
+        <mat-grid-tile>
+
+        </mat-grid-tile>
+        <mat-grid-tile>
+
+        </mat-grid-tile>
+        <mat-grid-tile>
+
+        </mat-grid-tile>
+    </mat-grid-list> -->
+
+    <!-- <mat-card>
+    <h2 class="mat-h2">Sellers in your region</h2>
+    <p>No sellers in your current area.</p>
+    <em>Delivered in partnership with coinmap by Trezor.</em>
+  </mat-card> -->
+
+    <!-- <mat-card>
+    <h2 class="mat-h2">Add coins</h2>
+
+    <p>
+      If you received an e-mail with City Coins, you can fill out the key you received in the e-mail to add those coins to your
+      wallet.
+    </p>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Coin code</mat-label>
+      <input matInput type="text" id="inputCode" placeholder="Fill out code">
+    </mat-form-field>
+
+    <br>
+
+    <button mat-stroked-button disabled>Add Coins</button> (Coming soon)
+  </mat-card> -->
+
+</div>

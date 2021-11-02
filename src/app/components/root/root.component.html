@@ -1,0 +1,290 @@
+<div class="daemon-shutdown-status mat-app-background" *ngIf="appState.shutdownInProgress">
+    <div class="daemon-shutdown-content">
+        <div class="daemon-shutdown-spinner">
+            <mat-spinner></mat-spinner>
+        </div>
+        <span *ngIf="!appState.shutdownDelayed" class="load-text">Shutdown in progress ... <br><br>Please wait.</span>
+        <span *ngIf="appState.shutdownDelayed">
+            <br>
+            <button (click)="forceExit()" mat-raised-button color="primary">Exit now</button>&nbsp;
+        </span>
+    </div>
+</div>
+
+<mat-drawer-container (backdropClick)="closeDetails('backdrop')" *ngIf="isAuthenticated | async; else anonymous" class="app-container" autosize>
+
+    <mat-drawer #details mode="over" [ngClass]="{'details-full-width': handset}" (keydown.escape)="closeDetails('escape')" [opened]="detailsService.opened" position="end">
+
+        <button (click)="closeDetails('toggle button')" mat-icon-button>
+            <mat-icon>close</mat-icon>
+        </button>
+
+        <h1 class="mat-h1" class="details-title">Transaction details</h1>
+
+        <app-details *ngIf="detailsService.item"></app-details>
+    </mat-drawer>
+
+    <mat-drawer #drawer class="not-selectable" [(opened)]="menuOpened" [(mode)]="menuMode">
+        <app-view-area>
+            <mat-list class="main-menu">
+
+                <!-- <mat-toolbar class="logo-icon" [matMenuTriggerFor]="animals">
+                    <img src="assets/{{appState.chain}}/logo.png">
+                    <div *ngIf="showFiller" class="menu-top-text">{{coinName}}</div>
+                </mat-toolbar>
+
+                <mat-menu #animals="matMenu" hasBackdrop="true" backdropClass="menu-mode-backdrop" overlapTrigger="false">
+                    <button mat-menu-item [matMenuTriggerFor]="accounts">Account</button>
+                    <button mat-menu-item [matMenuTriggerFor]="servers">Server</button>
+                    <button mat-menu-item [matMenuTriggerFor]="gateways">Gateway</button>
+                </mat-menu>
+
+                <mat-menu #accounts="matMenu">
+                    <button mat-menu-item>Sondre</button>
+                    <button mat-menu-item>Sondre Bjellås</button>
+                    <button mat-menu-item>Hax0rz cat</button>
+                </mat-menu>
+
+                <mat-menu #servers="matMenu">
+                    <button mat-menu-item>server.blockcore.net</button>
+                    <button mat-menu-item>server.liberstad.com</button>
+                    <button mat-menu-item>server.city-chain.org</button>
+                </mat-menu>
+
+                <mat-menu #gateways="matMenu">
+                    <button mat-menu-item>gateway.blockcore.net</button>
+                    <button mat-menu-item>gateway.liberstad.com</button>
+                    <button mat-menu-item>gateway.city-chain.org</button>
+                </mat-menu> -->
+
+                <div class="menu-top">
+
+                    <!-- <img src="assets/{{appState.chain}}/logo.png" class="menu-top-logo">
+                    <span *ngIf="showFiller" class="menu-top-text" mat-line>{{coinName}}</span>
+
+                    <br> -->
+
+                    <button mat-button class="menu-top-button" [matMenuTriggerFor]="menu">
+                        <img src="assets/cybits/logo.png" class="menu-top-logo">
+                        <span *ngIf="showFiller" class="menu-top-text" mat-line>{{coinName}}</span>
+                    </button>
+
+                    <mat-menu #menu="matMenu" hasBackdrop="true" backdropClass="menu-mode-backdrop" overlapTrigger="false">
+
+                        <!-- <mat-option *ngFor="let network of filteredAvailableChains" [value]="network">
+                            {{network.name}}
+                        </mat-option> -->
+
+                        <!-- <div>Wallets:</div> -->
+
+                        <button mat-menu-item (click)="changeWallet(account)" *ngFor="let account of appState.accounts" [disabled]="account.name === globalService.getWalletName()">
+                            <mat-icon>account_balance_wallet</mat-icon>
+                            <span>{{account.name}}</span>
+                        </button>
+
+                        <mat-divider></mat-divider>
+
+                        <!-- <div>Chains:</div> -->
+
+                        <button (click)="changeMode(network)" mat-menu-item *ngFor="let network of filteredAvailableChains">
+                            <img src="assets/cybits/logo.png" class="mat-icon notranslate material-icons mat-icon-no-color">
+                            <span>{{network.name}}</span>
+                        </button>
+
+                        <!-- <button mat-menu-item [matMenuTriggerFor]="accounts">
+                            <mat-icon>dialpad</mat-icon>
+                            <span>Bitcoin</span>
+                        </button>
+                        <button mat-menu-item disabled>
+                            <mat-icon>voicemail</mat-icon>
+                            <span>City Chain</span>
+                        </button>
+                        <button mat-menu-item>
+                            <mat-icon>notifications_off</mat-icon>
+                            <span>x42</span>
+                        </button> -->
+                    </mat-menu>
+
+                    <mat-menu #accounts="matMenu">
+                        <button mat-menu-item>main1</button>
+                        <button mat-menu-item>main2</button>
+                    </mat-menu>
+
+                </div>
+
+                <mat-list-item *ngIf="appModes.enabled('dashboard')" routerLinkActive="main-menu-active" routerLink="/dashboard">
+                    <mat-icon mat-list-icon>dashboard</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Dashboard</h4>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="appModes.enabled('wallet')" routerLinkActive="main-menu-active" routerLink="/wallet">
+                    <mat-icon mat-list-icon>account_balance_wallet</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Wallet</h4>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="appModes.enabled('staking') && appState.activeChain.pos" routerLinkActive="main-menu-active" routerLink="/staking">
+                    <mat-icon mat-list-icon>bolt</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Staking</h4>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="appModes.enabled('signing')" routerLinkActive="main-menu-active" routerLink="/signing">
+                    <mat-icon mat-list-icon>fingerprint</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Signing</h4>
+                </mat-list-item>
+
+                <!-- <mat-list-item *ngIf="appModes.enabled('history')" routerLinkActive="main-menu-active" routerLink="/history">
+                    <mat-icon mat-list-icon>history</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>History</h4>
+                </mat-list-item> -->
+
+                <mat-list-item *ngIf="appModes.enabled('identity')" routerLinkActive="main-menu-active" routerLink="/identity">
+                    <mat-icon mat-list-icon>person</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Identity</h4>
+                </mat-list-item>
+                <!-- 
+                <mat-list-item *ngIf="appModes.enabled('merchants')" routerLinkActive="main-menu-active" routerLink="/merchants">
+                    <mat-icon mat-list-icon>map</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Merchants</h4>
+                </mat-list-item> -->
+
+                <mat-list-item *ngIf="appModes.enabled('settings')" routerLinkActive="main-menu-active" routerLink="/settings">
+                    <mat-icon mat-list-icon>settings</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Settings</h4>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="handset" routerLinkActive="main-menu-active" routerLink="/about">
+                    <mat-icon mat-list-icon>info</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>About</h4>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="handset" routerLinkActive="main-menu-active" routerLink="/tools">
+                    <mat-icon mat-list-icon>build</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Tools</h4>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="appModes.enabled('logout')" routerLinkActive="main-menu-active" routerLink="/logout">
+                    <mat-icon mat-list-icon>power_settings_new</mat-icon>
+                    <h4 *ngIf="showFiller" mat-line>Log out</h4>
+                </mat-list-item>
+
+                <div class="fill-remaining-vertical"></div>
+
+                <mat-list-item *ngIf="!handset && !showFiller" (click)="toggleFiller()">
+                    <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+                </mat-list-item>
+
+                <mat-list-item *ngIf="!handset && showFiller" (click)="toggleFiller()">
+                    <mat-icon mat-list-icon>keyboard_arrow_left</mat-icon>
+                </mat-list-item>
+
+            </mat-list>
+        </app-view-area>
+    </mat-drawer>
+
+    <div class="app-sidenav-content">
+
+        <mat-toolbar class="toolbar not-selectable" [ngClass]="{'toolbar-bottom': handset}" color="primary">
+
+            <button *ngIf="appState.pageMode" routerLinkBack mat-icon-button>
+                <mat-icon>close</mat-icon>
+            </button>
+
+            <span *ngIf="!handset">{{appTitle$ | async}}</span>
+
+            <span *ngIf="handset && !appState.pageMode">
+                <button mat-stroked-button routerLink="/wallet/payment">
+                    <mat-icon>credit_card</mat-icon> Payment
+                </button>
+            </span>
+
+            <span class="fill-remaining-vertical"></span>
+
+            <!-- <button mat-icon-button>
+        <mat-icon>cloud</mat-icon>
+      </button>
+
+      <button mat-icon-button>
+        <mat-icon>cloud_off</mat-icon>
+      </button> -->
+
+            <button *ngIf="!appState.pageMode && !appState.handset" mat-icon-button matTooltip="Notification Center" routerLink="/notifications">
+                <mat-icon [matBadge]="notifications.countUnread" matBadgeColor="warn" matBadgeOverlap="true" [matBadgeHidden]="!notifications.anyUnread">notifications</mat-icon>
+            </button>
+
+            <button mat-icon-button *ngIf="updateService.available" matTooltip="Update available. Click to view details." routerLink="/update">
+                <mat-icon>arrow_downward</mat-icon>
+            </button>
+
+            <button *ngIf="networkShowDownload" mat-icon-button [matTooltip]="networkStatusTooltip" routerLink="/network">
+                <mat-icon>cloud_download</mat-icon>
+            </button>
+
+            <button *ngIf="networkShowDone" mat-icon-button [matTooltip]="networkStatusTooltip" routerLink="/network">
+                <mat-icon>cloud_done</mat-icon>
+            </button>
+
+            <button *ngIf="networkShowOffline" mat-icon-button [matTooltip]="networkStatusTooltip" routerLink="/network">
+                <mat-icon>cloud_off</mat-icon>
+            </button>
+
+            <button *ngIf="appModes.enabled('identity')" mat-icon-button [matTooltip]="identityTooltip" [matMenuTriggerFor]="identityMenu">
+                <mat-icon *ngIf="!identityService.identity">person</mat-icon>
+                <img *ngIf="identityService.identity" class="mat-icon notranslate material-icons mat-icon-no-color" [src]="identityService.getImage(identityService.identity.content.image)">
+            </button>
+
+            <button *ngIf="!appState.pageMode && !appState.handset" mat-icon-button [matMenuTriggerFor]="moreMenu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+
+            <button *ngIf="!appState.pageMode && appState.handset" mat-icon-button (click)="openMenu()">
+                <mat-icon>apps</mat-icon>
+            </button>
+
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item routerLink="/about">
+                    <mat-icon>info</mat-icon>
+                    <span>About</span>
+                </button>
+                <button mat-menu-item routerLink="/tools">
+                    <mat-icon>build</mat-icon>
+                    <span>Tools</span>
+                </button>
+                <button mat-menu-item (click)="checkForUpdates()">
+                    <mat-icon>system_update</mat-icon>
+                    <span>Check for Updates</span>
+                </button>
+                <button mat-menu-item routerLink="/logout">
+                    <mat-icon>power_settings_new</mat-icon>
+                    <span>Log out</span>
+                </button>
+            </mat-menu>
+
+            <mat-menu #identityMenu="matMenu">
+                <button mat-menu-item (click)="selectIdentity(identity)" *ngFor="let identity of identityService.identities$ | async | sortBy: 'asc':'index'">
+                    <img class="mat-icon notranslate material-icons mat-icon-no-color" [src]="identityService.getImage(identity.content.image)">
+                    <span *ngIf="identity.content.name">{{identity.content.name}}</span>
+                    <span *ngIf="!identity.content.name">{{identity.content.identifier}}</span>
+                </button>
+            </mat-menu>
+
+        </mat-toolbar>
+
+        <app-view-area class="app-view-area-main">
+            <div class="content-container" [ngClass]="{'content-container-full': appState.fullHeight}">
+                <router-outlet></router-outlet>
+            </div>
+        </app-view-area>
+
+    </div>
+
+</mat-drawer-container>
+
+<ng-template #anonymous>
+    <app-view-area>
+        <router-outlet></router-outlet>
+    </app-view-area>
+
+    <!-- <app-view-area  [@routeAnimations]="prepareRoute(outlet)">
+        <router-outlet #outlet="outlet"></router-outlet>
+    </app-view-area> -->
+</ng-template>

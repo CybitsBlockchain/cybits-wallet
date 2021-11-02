@@ -1,0 +1,182 @@
+<div class="content">
+
+    <mat-card>
+        <mat-icon class="wallet-info-icon" [matTooltip]="walletInfo">info</mat-icon>
+        <mat-card-title>Balance</mat-card-title>
+        <mat-card-subtitle>The balance of: {{wallet.walletName}}</mat-card-subtitle>
+        <mat-card-content>
+            <p>
+                <strong>{{ (wallet.confirmedBalance | coinNotation) || (0 | coinNotation) }}</strong>
+                <small class="text-uppercase"> {{ wallet.coinUnit }}</small>
+
+                <span *ngIf="walletStatistics">
+                    <span class="vertical-spacer">|</span>
+                    <strong>{{walletStatistics.totalUtxoCount}}</strong>
+                    <small class="text-uppercase"> UTXOs</small>
+                    <span class="vertical-spacer">|</span>
+                    <strong>{{walletStatistics.uniqueTransactionCount}}</strong>
+                    <small class="text-uppercase"> TRXs</small>
+                </span>
+
+            </p>
+            <ul *ngIf="wallet.unconfirmedBalance">
+                <li>
+                    <strong>{{ (wallet.unconfirmedBalance | coinNotation) || (0 | coinNotation) }}</strong>
+                    <em> (unconfirmed)</em>
+                </li>
+            </ul>
+
+            <p>
+                <button mat-stroked-button color="primary" routerLink="/wallet/send">Send</button>&nbsp;
+                <button mat-stroked-button color="primary" routerLink="/wallet/receive">Receive</button>&nbsp;
+            </p>
+        </mat-card-content>
+    </mat-card>
+
+    <!-- <mat-card *ngIf="walletStatistics">
+        <mat-card-title>Manage Wallet</mat-card-title>
+        <mat-card-subtitle>Advanced management of your wallet</mat-card-subtitle>
+        <mat-card-content>
+            <p>
+                <strong>{{walletStatistics.totalUtxoCount}}</strong>
+                <small class="text-uppercase"> UTXOs</small>
+                |
+                <strong>{{walletStatistics.uniqueTransactionCount}}</strong>
+                <small class="text-uppercase"> TRXs</small>
+            </p>
+            <p>
+                <button mat-stroked-button color="primary" (click)="openDialog()">Set UTXO count</button>
+            </p>
+        </mat-card-content>
+    </mat-card> -->
+
+    <!-- <mat-card>
+        <mat-card-title>Details</mat-card-title>
+        <mat-card-content>
+            <p>Your wallet was created {{wallet.generalInfo.creationTime | date:'short'}}.
+                <br>You received your first coins on {{firstTransactionDate | date:'short'}}.
+                <br>You have received {{countReceived}} incoming transactions, and sent coins {{countSent}} times.
+            </p>
+            <p></p>
+        </mat-card-content>
+    </mat-card> -->
+
+    <!-- 
+    <mat-card class="wallet-split-card">
+        <div class="wallet-split-left">
+            <h2 class="mat-h2">Balance</h2>
+            <p>
+                <strong>{{ (wallet.confirmedBalance | coinNotation) || (0 | coinNotation) }}</strong>
+                <small class="text-uppercase"> {{ wallet.coinUnit }}</small>
+            </p>
+            <ul>
+                <li>
+                    <strong>{{ (wallet.unconfirmedBalance | coinNotation) || (0 | coinNotation) }}</strong>
+                    <em> (unconfirmed)</em>
+                </li>
+            </ul>
+
+            <p>
+                <button mat-stroked-button color="primary" routerLink="/wallet/send">Send</button>&nbsp;
+                <button mat-stroked-button color="primary" routerLink="/wallet/receive">Receive</button>&nbsp;
+            </p>
+
+        </div>
+
+        <div class="wallet-split-right mat-caption">
+            When you send coins, due to the nature of how blockchain technology works, your existing coins can go from confirmed to unconfirmed.<br>
+            This is normal and expected. Within a few minutes, your balance should be updated.
+        </div>
+    </mat-card> -->
+
+    <h2 class="mat-h2">Transactions</h2>
+
+    <div *ngIf="wallet.isSingleAddressMode">
+        <p class="mat-caption">
+            You have enabled Single-Address-Mode in settings, this changes the behavior of the transaction history. When you perform a transaction, the history below will show both
+            sent and received (change coins). Normally the change coins are never shown in the transaction history.
+        </p>
+        <br>
+    </div>
+
+    <nav mat-tab-nav-bar mat-stretch-tabs>
+        <a mat-tab-link *ngFor="let link of links" (click)="filterHistory(link)" [active]="activeLink == link"> {{link.title}} </a>
+    </nav>
+
+    <div class="tab-pane">
+
+        <ng-template [ngIf]="!wallet.transactionArray">
+            <p class="wallet-no-transactions">
+                <em>No transactions in your wallet. You might need to wait for the network to synchronize.</em>
+            </p>
+        </ng-template>
+
+        <div class="mat-elevation-z8">
+            <table class="wallet-transactions-table interactive-table" mat-table matSort [dataSource]="dataSource">
+
+                <ng-container matColumnDef="transactionType">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+                    <td mat-cell *matCellDef="let transaction" [ngClass]="{'unconfirmed': !transaction.transactionConfirmedInBlock}">
+                        <mat-icon class="wallet-confirmed-icon" matTooltip="Transaction not confirmed in any blocks yet." matTooltipPosition="right" *ngIf="!transaction.transactionConfirmedInBlock">warning</mat-icon>
+                        <mat-icon class="wallet-confirmed-icon" matTooltip="Confirmed in block #{{transaction.transactionConfirmedInBlock}}" matTooltipPosition="right" *ngIf="transaction.transactionConfirmedInBlock">check</mat-icon>
+                        {{transaction.transactionType}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="transactionAmount">
+                    <th mat-header-cell *matHeaderCellDef> Amount </th>
+
+                    <td mat-cell *matCellDef="let transaction" [ngClass]="{'unconfirmed': !transaction.transactionConfirmedInBlock}">
+
+                        <span *ngIf="transaction.transactionType == 'sent'">
+                            <strong>- {{ transaction.transactionAmount | coinNotation
+                                }}
+                            </strong>
+                        </span>
+
+                        <span *ngIf="transaction.transactionType == 'received'">
+                            <strong>+ {{ transaction.transactionAmount + transaction.transactionFee | coinNotation
+                                }}
+                            </strong>
+                        </span>
+
+                        <span *ngIf="transaction.transactionType == 'staked'">
+                            <strong>+ {{ transaction.transactionAmount + transaction.transactionFee | coinNotation
+                                }}
+                            </strong>
+                        </span>
+
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="transactionTimestamp">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                    <td mat-cell *matCellDef="let transaction" [ngClass]="{'unconfirmed': !transaction.transactionConfirmedInBlock}">
+                        <span *ngIf="!appState.handset">{{ transaction.transactionTimestamp * 1000 | date:'medium'
+                            }}</span>
+                        <span *ngIf="appState.handset">{{ transaction.transactionTimestamp * 1000 | date:'short'
+                            }}</span>
+                    </td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let transaction">
+                        <a class="link" (click)="openTransactionDetails(transaction)">view</a>
+                    </td>
+                </ng-container> -->
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="openTransactionDetails(row)"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+
+    <br>
+    <p>Your wallet was created {{wallet?.generalInfo?.creationTime | date:'short'}}. Maximum 1000 transactions is shown in this history.</p>
+
+    <p>Does the history look wrong? Are you missing some transactions? Go to <a routerLink="/tools">Tools</a> and run Resync to refresh the transaction history.</p>
+
+</div>
