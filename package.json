@@ -1,21 +1,21 @@
 {
     "name": "cybits",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "MIT",
     "author": {
-        "name": "Blockcore",
+        "name": "Cybits",
         "email": "admin@cybits.org",
         "url": "https://cybits.org"
     },
     "description": "The official Cybits Community Cryptocurrency wallet",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/block-core/blockcore-wallet.git"
+        "url": "git+https://github.com/CybitsBlockchain/cybits-wallet.git"
     },
     "bugs": {
-        "url": "https://github.com/block-core/blockcore-wallet/issues"
+        "url": "https://github.com/CybitsBlockchain/cybits-wallet/issues"
     },
-    "homepage": "https://github.com/block-core/blockcore-wallet#readme",
+    "homepage": "https://github.com/CybitsBlockchain/cybits-wallet#readme",
     "main": "main.js",
     "scripts": {
         "postinstall": "npm run postinstall:electron && npx electron-builder install-app-deps",
