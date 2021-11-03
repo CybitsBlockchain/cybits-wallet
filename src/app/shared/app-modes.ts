@@ -20,11 +20,13 @@ export class AppModes {
         id: 'advanced',
         name: 'Advanced',
         features: ['dashboard', 'wallet', 'history', 'merchants', 'settings', 'logout', 'staking', 'walletmode', 'send-options']
-    }, {
-        id: 'experimental',
-        name: 'Experimental',
-        features: ['dashboard', 'wallet', 'history', 'merchants', 'settings', 'logout', 'staking', 'walletmode', 'send-options', 'signing', 'identity', 'hubs', 'debug']
-    }];
+     }, 
+     //{
+    //     id: 'experimental',
+    //     name: 'Experimental',
+    //     features: ['dashboard', 'wallet', 'history', 'merchants', 'settings', 'logout', 'staking', 'walletmode', 'send-options', 'signing', 'identity', 'hubs', 'debug']
+    // }
+];
 
     active: AppMode;
 
