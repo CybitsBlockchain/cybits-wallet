@@ -443,21 +443,15 @@ electron_1.app.on('activate', function () {
 function startDaemon(chain) {
     hasDaemon = true;
     var folderPath = chain.path || getDaemonPath();
-    var daemonName;
-    // if (chain.identity === 'city') {
-    //     daemonName = 'City.Chain';
-    // } else if (chain.identity === 'stratis') {
-    //     daemonName = 'Stratis.StratisD';
-    // } else if (chain.identity === 'bitcoin') {
-    //     daemonName = 'Stratis.StratisD';
-    // }
-    // If path is not specified and Win32, we'll append .exe
-    // if (!chain.path && os.platform() === 'win32') {
-    //     daemonName += '.exe';
-    // } else if (chain.path) {
-    //     daemonName += '.dll';
-    // }
-    daemonName = 'Cybits.Node.exe';
+    var daemonName = "Blockcore.Node";
+    //If path is not specified and Win32, we'll append .exe
+    if (!chain.path && os.platform() === 'win32') {
+        daemonName += '.exe';
+    }
+    else if (chain.path) {
+        daemonName += '.dll';
+    }
+    //daemonName = 'Cybits.Node.exe';
     var daemonPath = path.resolve(folderPath, daemonName);
     writeLog('start-daemon: ' + daemonPath);
     launchDaemon(daemonPath, chain);
@@ -506,13 +500,14 @@ function launchDaemon(apiPath, chain) {
     //     // Only append the apiPath as argument if we are in local mode.
     //     commandLineArguments.push(apiPath);
     // }
-    if (chain.datafolder) {
-        commandLineArguments.push('-datadir=' + chain.datafolder);
-    }
-    // commandLineArguments.push('--chain=' + chain.chain);
+    // if (chain.datafolder) {
+    //     commandLineArguments.push('-datadir=' + chain.datafolder);
+    // }
+    commandLineArguments.push('--chain=' + chain.chain);
     // commandLineArguments.push('-port=' + chain.port);
     // commandLineArguments.push('-rpcport=' + chain.rpcPort);
-    // commandLineArguments.push('-dbtype=leveldb');
+    commandLineArguments.push('-dbtype=leveldb');
+    //commandLineArguments.push('-datadir=' + "nodedata");
     // commandLineArguments.push('-apiport=' + chain.apiPort);
     // commandLineArguments.push('-txindex=1'); // Required for History (Block) explorer.
     if (chain.mode === 'light') {
