@@ -562,23 +562,16 @@ app.on('activate', () => {
 function startDaemon(chain: Chain) {
     hasDaemon = true;
     const folderPath = chain.path || getDaemonPath();
- let daemonName;
+    let daemonName = "Blockcore.Node";
 
-    // if (chain.identity === 'city') {
-    //     daemonName = 'City.Chain';
-    // } else if (chain.identity === 'stratis') {
-    //     daemonName = 'Stratis.StratisD';
-    // } else if (chain.identity === 'bitcoin') {
-    //     daemonName = 'Stratis.StratisD';
-    // }
 
-    // If path is not specified and Win32, we'll append .exe
-    // if (!chain.path && os.platform() === 'win32') {
-    //     daemonName += '.exe';
-    // } else if (chain.path) {
-    //     daemonName += '.dll';
-    // }
-    daemonName = 'Cybits.Node.exe';
+    //If path is not specified and Win32, we'll append .exe
+    if (!chain.path && os.platform() === 'win32') {
+        daemonName += '.exe';
+    } else if (chain.path) {
+        daemonName += '.dll';
+    }
+    //daemonName = 'Cybits.Node.exe';
  
       const daemonPath = path.resolve(folderPath, daemonName);
 
@@ -640,14 +633,15 @@ function launchDaemon(apiPath: string, chain: Chain) {
     //     commandLineArguments.push(apiPath);
     // }
 
-    if (chain.datafolder) {
-        commandLineArguments.push('-datadir=' + chain.datafolder);
-    }
+    // if (chain.datafolder) {
+    //     commandLineArguments.push('-datadir=' + chain.datafolder);
+    // }
 
-    // commandLineArguments.push('--chain=' + chain.chain);
+    commandLineArguments.push('--chain=' + chain.chain);
     // commandLineArguments.push('-port=' + chain.port);
     // commandLineArguments.push('-rpcport=' + chain.rpcPort);
-    // commandLineArguments.push('-dbtype=leveldb');
+    commandLineArguments.push('-dbtype=leveldb');
+    //commandLineArguments.push('-datadir=' + "nodedata");
     // commandLineArguments.push('-apiport=' + chain.apiPort);
     // commandLineArguments.push('-txindex=1'); // Required for History (Block) explorer.
 
