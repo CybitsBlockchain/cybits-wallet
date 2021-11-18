@@ -63,7 +63,7 @@ var hasDaemon = false;
 var daemons = [];
 var args = process.argv.slice(1);
 var serve = args.some(function (val) { return val === '--serve'; });
-var coin = { identity: 'city', tooltip: 'Blockcore Hub' }; // To simplify third party forks and different UIs for different coins, we'll define this constant that loads different assets.
+var coin = { identity: 'cybits', tooltip: 'Cybits Wallet' }; // To simplify third party forks and different UIs for different coins, we'll define this constant that loads different assets.
 require('electron-context-menu')({
     showInspectElement: serve
 });
@@ -459,7 +459,10 @@ function startDaemon(chain) {
 function getDaemonPath() {
     var apiPath;
     if (os.platform() === 'win32') {
-        apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\');
+        if (serve)
+            apiPath = path.resolve(__dirname, 'daemon\\');
+        else
+            apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\');
     }
     else if (os.platform() === 'linux') {
         apiPath = path.resolve(__dirname, '..//..//resources//daemon//');
@@ -631,12 +634,10 @@ function createTray() {
     // Put the app in system tray
     var trayIcon;
     if (serve) {
-        /// trayIcon = nativeImage.createFromPath('./src/assets/' + coin.identity + '/icon-tray.ico');
-        trayIcon = electron_1.nativeImage.createFromPath('./src/favicon.ico');
+        trayIcon = electron_1.nativeImage.createFromPath('./src/assets/' + coin.identity + '/icon-tray.ico');
     }
     else {
-        // trayIcon = nativeImage.createFromPath(path.resolve(__dirname, '../../resources/dist/assets/' + coin.identity + '/icon-tray.ico'));
-        trayIcon = electron_1.nativeImage.createFromPath(path.resolve(__dirname, '../../resources/dist/favicon.ico'));
+        trayIcon = electron_1.nativeImage.createFromPath(path.resolve(__dirname, './dist/assets/' + coin.identity + '/icon-tray.ico'));
     }
     var systemTray = new electron_1.Tray(trayIcon);
     var contextMenu = electron_1.Menu.buildFromTemplate([

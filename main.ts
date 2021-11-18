@@ -91,7 +91,7 @@ let daemons = [];
 
 const args = process.argv.slice(1);
 const serve = args.some(val => val === '--serve');
-const coin = { identity: 'city', tooltip: 'Blockcore Hub' }; // To simplify third party forks and different UIs for different coins, we'll define this constant that loads different assets.
+const coin = { identity: 'cybits', tooltip: 'Cybits Wallet' }; // To simplify third party forks and different UIs for different coins, we'll define this constant that loads different assets.
 
 require('electron-context-menu')({
     showInspectElement: serve
@@ -583,7 +583,10 @@ function startDaemon(chain: Chain) {
 function getDaemonPath() {
     let apiPath;
     if (os.platform() === 'win32') {
-        apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\');
+        if (serve)
+           apiPath = path.resolve(__dirname, 'daemon\\');
+        else
+             apiPath = path.resolve(__dirname, '..\\..\\resources\\daemon\\');
     } else if (os.platform() === 'linux') {
         apiPath = path.resolve(__dirname, '..//..//resources//daemon//');
     } else {
@@ -788,12 +791,13 @@ function createTray() {
     // Put the app in system tray
     let trayIcon;
     if (serve) {
-        /// trayIcon = nativeImage.createFromPath('./src/assets/' + coin.identity + '/icon-tray.ico');
-        trayIcon = nativeImage.createFromPath('./src/favicon.ico');
+        trayIcon = nativeImage.createFromPath('./src/assets/' + coin.identity + '/icon-tray.ico');
     } else {
-        // trayIcon = nativeImage.createFromPath(path.resolve(__dirname, '../../resources/dist/assets/' + coin.identity + '/icon-tray.ico'));
-        trayIcon = nativeImage.createFromPath(path.resolve(__dirname, '../../resources/dist/favicon.ico'));
+        
+        trayIcon = nativeImage.createFromPath(path.resolve(__dirname, './dist/assets/' + coin.identity + '/icon-tray.ico'));
     }
+  
+
 
     const systemTray = new Tray(trayIcon);
 
