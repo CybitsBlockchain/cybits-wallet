@@ -202,7 +202,8 @@ export class LoadComponent implements OnInit, OnDestroy {
         console.log(this.appState);
 
         // Update the overlay icon to visualize current chain.
-        this.electronService.ipcRenderer.send('update-icon', { icon: '/src/assets/cybits/logo.png', title: this.appState.chain });
+        
+        this.electronService.ipcRenderer.send('update-icon', { icon: '../../resources/assets/cybits/icon-tray.ico', title: this.appState.chain });
 
         if (this.appState.daemon.mode === 'full' || this.appState.daemon.mode === 'local' || this.appState.daemon.mode === 'light') {
             this.loading = true;
