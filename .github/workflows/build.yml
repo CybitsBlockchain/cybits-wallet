@@ -22,9 +22,9 @@ jobs:
             runtime: "linux-x64"
             platform: "linux"
           - os: macos-latest
-            runtime: "osx-x64"
+            runtime: "mac-x64"
             extension: ".zip"
-            platform: "osx"
+            platform: "mac"
         node_version: [14.x]
         dotnet_version: ['2.1.807']
       fail-fast: false
