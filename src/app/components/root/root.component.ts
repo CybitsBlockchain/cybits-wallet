@@ -101,8 +101,8 @@ export class RootComponent implements OnInit {
         this.isAuthenticated = authService.isAuthenticated();
 
         if (this.electronService.ipcRenderer) {
-            if (this.electronService.app) {
-                const applicationVersion = this.electronService.app.getVersion();
+            if (this.electronService.remote) {
+                const applicationVersion = this.electronService.remote.app.getVersion();
 
                 this.appState.setVersion(applicationVersion);
                 this.log.info('Version: ' + applicationVersion);
