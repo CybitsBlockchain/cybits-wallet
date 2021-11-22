@@ -108,8 +108,21 @@ Execute/Run
 
 ### Mac
 
-We will only support Mac if there is enough demand from the community.
+The MacOS Binary can be downloaded in the [releases](https://github.com/CybitsBlockchain/cybits-wallet/releases) page:
 
+Special Note to Mac Users:
+You'll get a warning when trying to open the app warning about untrusted signatures. We are working on a signing solution soon.  
+
+In the meantime:
+```
+Open Finder.
+Locate the app.
+Control+Click the app.
+Select Open.
+Click Open.
+```
+
+The app should be saved as an exception in your security settings, allowing you to open it in the future.
 
 ## Contribution
 
