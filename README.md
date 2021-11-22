@@ -34,7 +34,77 @@ be required until we have a signed release available.
 
 ### Linux
 
-For Linux, we are still in the process of testing and the Linux wallet will be available shortly.
+Install .net core
+```
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+sudo apt-get update; \
+  sudo apt-get install -y apt-transport-https && \
+  sudo apt-get update && \
+  sudo apt-get install -y dotnet-sdk-3.1
+```
+Install git
+```
+sudo apt-get install git
+```
+Install curl
+```
+sudo apt-get install curl
+```
+#Install nodejs (reference: https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-20-04 )
+```
+cd ~
+curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+sudo bash nodesource_setup.sh
+sudo apt install nodejs
+sudo npm install npm@latest -g
+sudo npm install -g npm@8.1.4
+```
+
+Install Dependencies
+```
+sudo npm install -g @angular/cli
+sudo npm install -g typescript
+sudo npm install -g npm-run-all
+sudo npm install -g wait-on
+sudo npm install -g electron 
+sudo apt-get install libatk1.0-0
+sudo apt-get install libatk-bridge2.0-0
+sudo apt-get install librust-gdk-pixbuf-sys-dev
+sudo apt-get install libgtk-3-0
+sudo apt-get install libgbm1
+```
+
+Install the Cybits BlockCore Node
+```
+git clone --depth 1 --branch v1.0.7 https://github.com/CybitsBlockchain/cybits-wallet.git
+wget https://github.com/CybitsBlockchain/blockcore/releases/download/v1.0.24/Cybits.Node-1.0.24-linux-x64.tar.gz
+mkdir cybits-wallet/daemon
+tar -zxf Cybits.Node-1.0.24-linux-x64.tar.gz --directory cybits-wallet/daemon/
+```
+
+Install Angular
+```
+cd ~/cybits-wallet
+npm install --save-dev @angular-devkit/build-angular --legacy-peer-deps
+```
+
+Build
+```
+npm run-script build:linux
+```
+The Binary will be located at ~/cybits-wallet/build/Cybits-1.0.7-linux-x86_64.AppImage
+
+Make the Binary Executable
+```
+chmod u+x Cybits-1.0.7-linux-x86_64.AppImage
+```
+
+Execute/Run
+```
+./Cybits-1.0.7-linux-x86_64.AppImage
+```
 
 ### Mac
 
