@@ -7,7 +7,8 @@ exports.environment = void 0;
 exports.environment = {
     production: false,
     environment: '',
-    password: '' // Specify a password to auto-login on the last used wallet. Makes development a bit easier.
+    password: '', // Specify a password to auto-login on the last used wallet. Makes development a bit easier.
+    version: ''
 };
 /*
  * In development mode, to ignore zone related error stack frames such as
