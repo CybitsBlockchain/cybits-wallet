@@ -24,6 +24,16 @@ you have been running Cybits Wallet for a long time, you can perform a manual up
 When an update is available, there will appear an icon on the menu. Click this icon, to see
 update information and perform a download and installation.
 
+### Tooling Versions
+Node: 16.13.0
+[node](https://nodejs.org/en/blog/release/v16.13.0/)
+
+npm: v7.5.6 
+
+```npm install -g npm@7.5.6```
+
+Angular: v11.0.9
+
 ### Windows
 
 For Windows, we decided to support both 32-bit and 64-bit installations of Windows.  
