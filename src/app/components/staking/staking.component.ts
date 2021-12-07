@@ -125,10 +125,10 @@ export class StakingComponent implements OnInit, OnDestroy {
         this.appState.accounts.forEach((account) => {
 
             // 
-            this.apiService.getColdStakingAddress(account.name, false, true).subscribe((address) => {
-                this.localOnlineColdStakingAccounts.push({ name: account.name, address: address.address });
-                console.log(this.localOnlineColdStakingAccounts);
-            });
+            // this.apiService.getColdStakingAddress(account.name, false, true).subscribe((address) => {
+            //     this.localOnlineColdStakingAccounts.push({ name: account.name, address: address.address });
+            //     console.log(this.localOnlineColdStakingAccounts);
+            // });
 
         });
 
