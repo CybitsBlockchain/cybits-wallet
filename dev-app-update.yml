@@ -1,0 +1,4 @@
+owner: CybitsBlockchain
+repo: cybits-wallet
+provider: github
+updaterCacheDirName: cybits-updater
