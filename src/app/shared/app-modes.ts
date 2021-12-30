@@ -15,7 +15,7 @@ export class AppModes {
     available: AppMode[] = [{
         id: 'basic',
         name: 'Basic',
-        features: ['dashboard', 'wallet', 'merchants', 'settings', 'logout']
+        features: ['dashboard', 'wallet', 'merchants', 'settings', 'logout', 'staking']
     }, {
         id: 'advanced',
         name: 'Advanced',
