@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ConsoleReporter } from 'jasmine';
 import { Logger } from './logger.service';
 
 export interface Chain {
@@ -41,7 +42,7 @@ export class ChainService {
 
             /** Modify this collection to add additional chain support. */
             this.availableChains = [
-                { opreturndata: 80, pos: true, rootFolderName: 'Cybits', test: false, name: 'Cybits Main', chain: 'Cybits', private: 160, public: 28, identity: 'Cybits', tooltip: 'Cybits', port: 17771, rpcPort: 17772, apiPort: 17773, network: 'CybitsMain', genesisDate: new Date(2021, 11, 1) },
+                { opreturndata: 80, pos: true, rootFolderName: 'Cybits', test: false, name: 'Cybits Main', chain: 'Cybits', private: 160, public: 28, identity: 'Cybits', tooltip: 'Cybits', port: 17771, rpcPort: 17772, apiPort: 17773, network: 'CybitsMain', genesisDate: new Date(Date.UTC(2021, 10, 1)) },
 
             ];
 
