@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ConsoleReporter } from 'jasmine';
 import { Logger } from './logger.service';
 
 export interface Chain {
